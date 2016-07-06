@@ -20,6 +20,8 @@ public class TabAdapter extends FragmentStatePagerAdapter {
         this.numberOfTabs = numberOfTabs;
     }
 
+
+
     @Override
     public Fragment getItem(int i) {
         switch (i) {
@@ -30,7 +32,6 @@ public class TabAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
-
     }
 
 
