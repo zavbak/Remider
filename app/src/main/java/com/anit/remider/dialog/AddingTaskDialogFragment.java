@@ -5,10 +5,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-
-import java.util.Calendar;
-
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
@@ -22,6 +18,9 @@ import android.widget.TimePicker;
 
 import com.anit.remider.R;
 import com.anit.remider.Utils;
+import com.anit.remider.model.ModelTask;
+
+import java.util.Calendar;
 
 /**
  * Created by 79900 on 07.07.2016.
@@ -33,7 +32,7 @@ public class AddingTaskDialogFragment extends DialogFragment {
 
     public interface AddinTaskListener {
 
-        void onTaskAdded();
+        void onTaskAdded(ModelTask newTask);
 
         void onTaskAddingCencel();
     }
@@ -47,7 +46,7 @@ public class AddingTaskDialogFragment extends DialogFragment {
 
             addinTaskListener = (AddinTaskListener) getActivity();
 
-        }catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "must implement AddinTaskListener");
         }
 
@@ -81,6 +80,12 @@ public class AddingTaskDialogFragment extends DialogFragment {
         builder.setView(container);
 
 
+        final ModelTask task = new ModelTask();
+        final Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + 1);
+
+
         assert etDate != null;
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,10 +99,12 @@ public class AddingTaskDialogFragment extends DialogFragment {
                 DialogFragment dataPickerFragment = new DatePickerFragment() {
 
                     @Override
-                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dateOfmonth) {
-                        Calendar dataCalendar = Calendar.getInstance();
-                        dataCalendar.set(year, monthOfYear, dateOfmonth);
-                        etDate.setText(Utils.getDate(dataCalendar.getTimeInMillis()));
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfmonth) {
+
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, monthOfYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfmonth);
+                        etDate.setText(Utils.getDate(calendar.getTimeInMillis()));
 
                     }
 
@@ -127,9 +134,10 @@ public class AddingTaskDialogFragment extends DialogFragment {
 
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minuteOfDay) {
-                        Calendar timeCalendar = Calendar.getInstance();
-                        timeCalendar.set(0, 0, 0, hourOfDay, minuteOfDay);
-                        etTime.setText(Utils.getTime(timeCalendar.getTimeInMillis()));
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minuteOfDay);
+                        calendar.set(Calendar.SECOND, 0);
+                        etTime.setText(Utils.getTime(calendar.getTimeInMillis()));
 
                     }
 
@@ -148,7 +156,7 @@ public class AddingTaskDialogFragment extends DialogFragment {
         builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                addinTaskListener.onTaskAdded();
+                addinTaskListener.onTaskAdded(task);
                 dialog.dismiss();
             }
         });
@@ -157,6 +165,12 @@ public class AddingTaskDialogFragment extends DialogFragment {
         builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
+                task.setTitle(etTitle.getText().toString());
+                if(etDate.length() !=0 || etTime.length() != 0){
+                    task.setDate(calendar.getTimeInMillis());
+                }
+
+
                 addinTaskListener.onTaskAddingCencel();
                 dialog.cancel();
             }

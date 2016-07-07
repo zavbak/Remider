@@ -15,12 +15,22 @@ import android.widget.Toast;
 
 import com.anit.remider.adapter.TabAdapter;
 import com.anit.remider.dialog.AddingTaskDialogFragment;
+import com.anit.remider.fragment.CurrentTaskFragment;
+import com.anit.remider.fragment.DoneTaskFragment;
 import com.anit.remider.fragment.SplashFragment;
+import com.anit.remider.model.ModelTask;
 
 public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddinTaskListener {
 
     FragmentManager fragmentManager;
     PreferenceHelper preferenceHelper;
+
+
+    TabAdapter tabAdapter;
+
+    private CurrentTaskFragment currentTaskFragment;
+    private DoneTaskFragment doneTaskFragment;
+
 
 
     @Override
@@ -85,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 
-        TabAdapter tabAdapter = new TabAdapter(fragmentManager,2);
+        tabAdapter = new TabAdapter(fragmentManager,2);
         viewPager.setAdapter(tabAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -108,6 +118,10 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
         });
 
+
+
+        currentTaskFragment = (CurrentTaskFragment) tabAdapter.getItem(TabAdapter.CURRENT_TASK_POSITION);
+        doneTaskFragment    = (DoneTaskFragment) tabAdapter.getItem(TabAdapter.DONE_TASK_POSITION);
     }
 
 
@@ -137,12 +151,13 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     }
 
     @Override
-    public void onTaskAdded() {
-        Toast.makeText(this,"Task added!",Toast.LENGTH_SHORT).show();
+    public void onTaskAdded(ModelTask newTask) {
+        currentTaskFragment.addTask(newTask);
+
     }
 
     @Override
     public void onTaskAddingCencel() {
-        Toast.makeText(this,"Task cancel!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Task added!",Toast.LENGTH_SHORT).show();
     }
 }
