@@ -1,18 +1,23 @@
 package com.anit.remider;
 
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.anit.remider.adapter.TabAdapter;
+import com.anit.remider.dialog.AddingTaskDialogFragment;
 import com.anit.remider.fragment.SplashFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddinTaskListener {
 
     FragmentManager fragmentManager;
     PreferenceHelper preferenceHelper;
@@ -99,11 +104,20 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+
+
         });
 
+    }
 
 
-
+    /**
+     * Вешаем на Fab
+     * @param view
+     */
+    public void onClickFab(View view) {
+        DialogFragment addingTaskDialogFragment = new  AddingTaskDialogFragment();
+        addingTaskDialogFragment.show(fragmentManager,"AddingTaskDialogFragment");
     }
 
     void runSplash() {
@@ -120,5 +134,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void onTaskAdded() {
+        Toast.makeText(this,"Task added!",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTaskAddingCencel() {
+        Toast.makeText(this,"Task cancel!",Toast.LENGTH_SHORT).show();
     }
 }
