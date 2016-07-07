@@ -156,6 +156,10 @@ public class AddingTaskDialogFragment extends DialogFragment {
         builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
+                task.setTitle(etTitle.getText().toString());
+                if(etDate.length() !=0 || etTime.length() != 0){
+                    task.setDate(calendar.getTimeInMillis());
+                }
                 addinTaskListener.onTaskAdded(task);
                 dialog.dismiss();
             }
@@ -165,10 +169,7 @@ public class AddingTaskDialogFragment extends DialogFragment {
         builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                task.setTitle(etTitle.getText().toString());
-                if(etDate.length() !=0 || etTime.length() != 0){
-                    task.setDate(calendar.getTimeInMillis());
-                }
+
 
 
                 addinTaskListener.onTaskAddingCencel();
