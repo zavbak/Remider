@@ -17,12 +17,9 @@ import com.anit.remider.model.ModelTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CurrentTaskFragment extends Fragment {
+public class CurrentTaskFragment extends TaskFragment {
 
-    RecyclerView rvCurrentTasks;
-    RecyclerView.LayoutManager layoutManager;
 
-    private CurrentTaskAdapter adapter;
 
 
     public CurrentTaskFragment() {
@@ -36,13 +33,13 @@ public class CurrentTaskFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_current_task, container, false);
 
-        rvCurrentTasks = (RecyclerView) rootView.findViewById(R.id.rvCurrentTask);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.rvCurrentTask);
         layoutManager = new LinearLayoutManager(getActivity());
 
-        rvCurrentTasks.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new CurrentTaskAdapter();
-        rvCurrentTasks.setAdapter(adapter);
+        adapter = new CurrentTaskAdapter(this);
+        recyclerView.setAdapter(adapter);
 
 
         // Inflate the layout for this fragment
@@ -50,27 +47,7 @@ public class CurrentTaskFragment extends Fragment {
     }
 
 
-    public void addTask(ModelTask newTask) {
 
-        int position = -1;
-        for (int i = 0; i < adapter.getItemCount(); i++) {
-            ModelTask task = (ModelTask) adapter.getItem(i);
-            if (newTask.getDate() < task.getDate()) {
-                position = i;
-                break;
-            }
-
-
-        }
-
-
-        if (position != -1) {
-            adapter.addItem(position, newTask);
-        } else {
-
-            adapter.addItem(newTask);
-        }
-    }
 
 
 

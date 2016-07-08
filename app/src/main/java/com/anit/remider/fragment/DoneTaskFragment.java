@@ -16,10 +16,7 @@ import com.anit.remider.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DoneTaskFragment extends Fragment {
-
-    RecyclerView rvDoneTasks;
-    RecyclerView.LayoutManager layoutManager;
+public class DoneTaskFragment extends TaskFragment {
 
 
     public DoneTaskFragment() {
@@ -33,10 +30,10 @@ public class DoneTaskFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_done_task, container, false);
 
-        rvDoneTasks = (RecyclerView) rootView.findViewById(R.id.rvDoneTask);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.rvDoneTask);
         layoutManager = new LinearLayoutManager(getActivity());
 
-        rvDoneTasks.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
 
 
         return rootView;
