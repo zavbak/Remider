@@ -10,6 +10,8 @@ import com.anit.remider.model.Item;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by 79900 on 08.07.2016.
  */
@@ -58,12 +60,14 @@ public abstract class TaskAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         protected TextView title;
         protected TextView date;
+        protected CircleImageView priority;
 
 
-        public TaskViewHolder(View itemView, TextView title, TextView date) {
+        public TaskViewHolder(View itemView, TextView title, TextView date,CircleImageView priority) {
             super(itemView);
             this.title = title;
             this.date = date;
+            this.priority = priority;
 
         }
     }

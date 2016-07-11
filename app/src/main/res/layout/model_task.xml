@@ -34,7 +34,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/cvTaskPriority"
+        android:id="@+id/ovTaskPriority"
         android:src="@color/colorPrimary"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
